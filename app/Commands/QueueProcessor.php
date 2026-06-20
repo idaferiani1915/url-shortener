@@ -76,6 +76,35 @@ class QueueProcessor extends BaseCommand
                 }
             }
 
+            // Pop and process up to 10 emails from queue
+            for ($i = 0; $i < 10; $i++) {
+                $emailItem = $redis->rpop('email_queue');
+                if (!$emailItem) {
+                    break;
+                }
+                
+                $emailData = json_decode($emailItem, true);
+                if ($emailData) {
+                    try {
+                        $email = \Config\Services::email();
+                        // Clear email configuration for new message
+                        $email->clear(true);
+                        
+                        $email->setTo($emailData['to']);
+                        $email->setSubject($emailData['subject']);
+                        $email->setMessage($emailData['message']);
+                        
+                        if ($email->send()) {
+                            CLI::write('Successfully sent async email to ' . $emailData['to'], 'green');
+                        } else {
+                            CLI::error('Failed to send email to ' . $emailData['to'] . ': ' . $email->printDebugger(['headers']));
+                        }
+                    } catch (Exception $e) {
+                        CLI::error('Email processing error: ' . $e->getMessage());
+                    }
+                }
+            }
+
             if ($once) {
                 break;
             }

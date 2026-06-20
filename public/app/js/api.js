@@ -83,6 +83,20 @@ const API = {
         localStorage.removeItem('url_shortener_user');
     },
 
+    async forgotPassword(email) {
+        return this.request('/api/forgot-password', {
+            method: 'POST',
+            body: JSON.stringify({ email })
+        });
+    },
+
+    async resetPassword(token, newPassword) {
+        return this.request('/api/reset-password', {
+            method: 'POST',
+            body: JSON.stringify({ token, new_password: newPassword })
+        });
+    },
+
     isLoggedIn() {
         return localStorage.getItem('url_shortener_token') !== null;
     },

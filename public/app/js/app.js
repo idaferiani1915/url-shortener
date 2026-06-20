@@ -292,4 +292,88 @@ document.addEventListener('alpine:init', () => {
             }
         }
     }));
+
+    // Forgot Password Component
+    Alpine.data('forgotPasswordForm', () => ({
+        email: '',
+        loading: false,
+        successMsg: '',
+        errorMsg: '',
+
+        init() {
+            checkGuestRedirect();
+        },
+
+        async submit() {
+            this.loading = true;
+            this.successMsg = '';
+            this.errorMsg = '';
+
+            const res = await API.forgotPassword(this.email);
+            this.loading = false;
+
+            if (res.success) {
+                this.successMsg = res.message;
+                this.email = '';
+            } else {
+                this.errorMsg = res.message;
+            }
+        }
+    }));
+
+    // Reset Password Component
+    Alpine.data('resetPasswordForm', () => ({
+        token: '',
+        newPassword: '',
+        confirmPassword: '',
+        loading: false,
+        successMsg: '',
+        errorMsg: '',
+        fieldErrors: {},
+
+        init() {
+            checkGuestRedirect();
+            // Ambil token dari query string ?token=xxx
+            this.token = new URLSearchParams(window.location.search).get('token') || '';
+            if (!this.token) {
+                this.errorMsg = 'Tautan tidak valid karena token tidak ditemukan.';
+            }
+        },
+
+        async submit() {
+            if (!this.token) {
+                this.errorMsg = 'Token tidak valid.';
+                return;
+            }
+
+            if (this.newPassword !== this.confirmPassword) {
+                this.errorMsg = 'Konfirmasi kata sandi tidak cocok.';
+                return;
+            }
+
+            this.loading = true;
+            this.successMsg = '';
+            this.errorMsg = '';
+            this.fieldErrors = {};
+
+            const res = await API.resetPassword(this.token, this.newPassword);
+            this.loading = false;
+
+            if (res.success) {
+                this.successMsg = res.message;
+                this.newPassword = '';
+                this.confirmPassword = '';
+                // Redirect ke login setelah 3 detik
+                setTimeout(() => {
+                    window.location.href = '/app/login.html';
+                }, 3000);
+            } else {
+                if (res.status === 400 && typeof res.data === 'object') {
+                    this.fieldErrors = res.data;
+                } else {
+                    this.errorMsg = res.message;
+                }
+            }
+        }
+    }));
 });

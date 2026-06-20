@@ -12,7 +12,7 @@ class UserModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['username', 'email', 'password'];
+    protected $allowedFields    = ['username', 'email', 'password', 'reset_token', 'reset_token_expires_at'];
 
     // Dates
     protected $useTimestamps = true;

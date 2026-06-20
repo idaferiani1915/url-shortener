@@ -123,4 +123,19 @@ class Email extends BaseConfig
      * Enable notify message from server
      */
     public bool $DSN = false;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->fromEmail  = env('email.fromEmail', '');
+        $this->fromName   = env('email.fromName', 'Gazin URL Shortener');
+        $this->protocol   = env('email.protocol', 'smtp');
+        $this->SMTPHost   = env('email.SMTPHost', '');
+        $this->SMTPUser   = env('email.SMTPUser', '');
+        $this->SMTPPass   = env('email.SMTPPass', '');
+        $this->SMTPPort   = (int) env('email.SMTPPort', 587);
+        $this->SMTPCrypto = env('email.SMTPCrypto', 'tls');
+        $this->mailType   = 'html'; // default to HTML email for reset links
+    }
 }

@@ -12,6 +12,8 @@ $routes->get('/', function() {
 // Public Auth Endpoints
 $routes->post('api/register', 'AuthController::register', ['filter' => 'ratelimit']);
 $routes->post('api/login', 'AuthController::login', ['filter' => 'ratelimit']);
+$routes->post('api/forgot-password', 'AuthController::forgotPassword', ['filter' => 'ratelimit']);
+$routes->post('api/reset-password', 'AuthController::resetPassword', ['filter' => 'ratelimit']);
 
 // Shorten Endpoint (extracts JWT inside if provided, otherwise anonymous)
 $routes->post('api/shorten', 'ShortenController::shorten', ['filter' => 'ratelimit']);
