@@ -1,184 +1,354 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id" class="h-full bg-slate-950 text-slate-100">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gazin - Penyingkat URL Premium & Cepat</title>
-    
+
     <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        outfit: ['Outfit', 'sans-serif'],
-                    }
-                }
-            }
-        }
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Inter", "sans-serif"],
+              outfit: ["Outfit", "sans-serif"],
+            },
+          },
+        },
+      };
     </script>
-    
+
     <!-- Custom API & App Scripts -->
     <script src="js/api.js" defer></script>
     <script src="js/app.js" defer></script>
 
     <!-- Alpine.js CDN -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-</head>
-<body class="min-h-full flex flex-col font-sans relative overflow-x-hidden">
-    
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+  </head>
+  <body class="min-h-full flex flex-col font-sans relative overflow-x-hidden">
     <!-- Background Glow Elements -->
-    <div class="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-blue-500/10 blur-[120px] pointer-events-none"></div>
-    <div class="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-violet-600/10 blur-[120px] pointer-events-none"></div>
+    <div
+      class="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-blue-500/10 blur-[120px] pointer-events-none"
+    ></div>
+    <div
+      class="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-violet-600/10 blur-[120px] pointer-events-none"
+    ></div>
 
     <!-- Navigation Header -->
-    <header class="sticky top-0 z-50 w-full border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-md" x-data="navbar">
-        <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-            <a href="index.html" class="flex items-center gap-2">
-                <span class="text-2xl font-black font-outfit bg-gradient-to-r from-blue-400 via-indigo-400 to-violet-500 bg-clip-text text-transparent">Gazin</span>
-            </a>
-            
-            <nav class="flex items-center gap-4">
-                <template x-if="isLoggedIn">
-                    <div class="flex items-center gap-4">
-                        <a href="dashboard.html" class="text-sm font-medium text-slate-300 hover:text-white transition duration-200">Dashboard</a>
-                        <span class="text-slate-600">|</span>
-                        <div class="flex items-center gap-3">
-                            <span class="text-sm text-slate-400 font-medium" x-text="user?.username"></span>
-                            <button @click="logout()" class="text-sm font-semibold text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 px-3 py-1.5 rounded-lg border border-rose-500/20 transition duration-200">Keluar</button>
-                        </div>
-                    </div>
-                </template>
-                <template x-if="!isLoggedIn">
-                    <div class="flex items-center gap-3">
-                        <a href="login.html" class="text-sm font-semibold text-slate-300 hover:text-white transition duration-200 px-4 py-2">Masuk</a>
-                        <a href="register.html" class="text-sm font-semibold bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg shadow-lg shadow-blue-500/20 transition duration-200">Daftar</a>
-                    </div>
-                </template>
-            </nav>
-        </div>
+    <header
+      class="sticky top-0 z-50 w-full border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-md"
+      x-data="navbar"
+    >
+      <div
+        class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between"
+      >
+        <a href="index.html" class="flex items-center gap-2">
+          <span
+            class="text-2xl font-black font-outfit bg-gradient-to-r from-blue-400 via-indigo-400 to-violet-500 bg-clip-text text-transparent"
+            >Gazin</span
+          >
+        </a>
+
+        <nav class="flex items-center gap-4">
+          <template x-if="isLoggedIn">
+            <div class="flex items-center gap-4">
+              <a
+                href="dashboard.html"
+                class="text-sm font-medium text-slate-300 hover:text-white transition duration-200"
+                >Dashboard</a
+              >
+              <span class="text-slate-600">|</span>
+              <div class="flex items-center gap-3">
+                <span
+                  class="text-sm text-slate-400 font-medium"
+                  x-text="user?.username"
+                ></span>
+                <button
+                  @click="logout()"
+                  class="text-sm font-semibold text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 px-3 py-1.5 rounded-lg border border-rose-500/20 transition duration-200"
+                >
+                  Keluar
+                </button>
+              </div>
+            </div>
+          </template>
+          <template x-if="!isLoggedIn">
+            <div class="flex items-center gap-3">
+              <a
+                href="login.html"
+                class="text-sm font-semibold text-slate-300 hover:text-white transition duration-200 px-4 py-2"
+                >Masuk</a
+              >
+              <a
+                href="register.html"
+                class="text-sm font-semibold bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg shadow-lg shadow-blue-500/20 transition duration-200"
+                >Daftar</a
+              >
+            </div>
+          </template>
+        </nav>
+      </div>
     </header>
 
     <!-- Main Content Area -->
-    <main class="flex-grow max-w-4xl mx-auto w-full px-4 py-12 flex flex-col justify-center items-center relative z-10" x-data="shortener">
-        
-        <!-- Hero Title -->
-        <div class="text-center max-w-2xl mb-12">
-            <h1 class="text-4xl sm:text-5xl font-extrabold font-outfit tracking-tight mb-4 text-white">
-                Buat Tautan Anda Lebih <span class="bg-gradient-to-r from-blue-400 via-indigo-400 to-violet-500 bg-clip-text text-transparent">Ringkas & Pintar</span>
-            </h1>
-            <p class="text-base sm:text-lg text-slate-400 leading-relaxed">
-                Platform penyingkat URL cepat untuk tugas Sistem Terdistribusi. Pantau analitik klik real-time dengan dukungan cache Redis.
-            </p>
-        </div>
+    <main
+      class="flex-grow max-w-4xl mx-auto w-full px-4 py-12 flex flex-col justify-center items-center relative z-10"
+      x-data="shortener"
+    >
+      <!-- Hero Title -->
+      <div class="text-center max-w-2xl mb-12">
+        <h1
+          class="text-4xl sm:text-5xl font-extrabold font-outfit tracking-tight mb-4 text-white"
+        >
+          Buat Tautan Anda Lebih
+          <span
+            class="bg-gradient-to-r from-blue-400 via-indigo-400 to-violet-500 bg-clip-text text-transparent"
+            >Ringkas & Pintar</span
+          >
+        </h1>
+        <p class="text-base sm:text-lg text-slate-400 leading-relaxed">
+          Platform penyingkat URL cepat untuk tugas Sistem Terdistribusi. Pantau
+          analitik klik real-time dengan dukungan cache Redis.
+        </p>
+      </div>
 
-        <!-- Shortener Form Card -->
-        <div class="w-full bg-slate-900/60 border border-slate-800/80 rounded-2xl p-6 sm:p-8 backdrop-blur-xl shadow-2xl relative">
-            <form @submit.prevent="handleSubmit()" class="space-y-6">
-                <!-- Original URL Input -->
-                <div>
-                    <label for="original_url" class="block text-sm font-semibold text-slate-300 mb-2">URL Asli <span class="text-rose-500">*</span></label>
-                    <div class="relative">
-                        <input type="url" id="original_url" x-model="originalUrl" required placeholder="https://example.com/halaman-panjang-sekali-yang-mau-diperpendek" 
-                               class="w-full bg-slate-950/80 border border-slate-800 rounded-xl py-3.5 px-4 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition duration-200">
-                    </div>
-                    <p class="mt-1.5 text-xs text-rose-400" x-show="fieldErrors.original_url" x-text="fieldErrors.original_url"></p>
-                </div>
-
-                <!-- Custom Alias and Expiry Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Custom Alias Input -->
-                    <div>
-                        <div class="flex items-center justify-between mb-2">
-                            <label for="custom_alias" class="text-sm font-semibold text-slate-300">Alias Kustom <span class="text-slate-500 text-xs">(opsional)</span></label>
-                            <span class="text-xs text-slate-500" x-show="!isLoggedIn">Butuh login</span>
-                        </div>
-                        <input type="text" id="custom_alias" x-model="customAlias" :disabled="!isLoggedIn" :placeholder="isLoggedIn ? 'nama-alias' : 'Login untuk menggunakan'" 
-                               class="w-full bg-slate-950/80 border border-slate-800 rounded-xl py-3 px-4 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition duration-200">
-                        <p class="mt-1.5 text-xs text-rose-400" x-show="fieldErrors.custom_alias" x-text="fieldErrors.custom_alias"></p>
-                    </div>
-
-                    <!-- Expiration Input -->
-                    <div>
-                        <label for="expires_at" class="block text-sm font-semibold text-slate-300 mb-2">Waktu Kedaluwarsa <span class="text-slate-500 text-xs">(opsional)</span></label>
-                        <input type="datetime-local" id="expires_at" x-model="expiresAt"
-                               class="w-full bg-slate-950/80 border border-slate-800 rounded-xl py-3 px-4 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition duration-200">
-                        <p class="mt-1.5 text-xs text-rose-400" x-show="fieldErrors.expires_at" x-text="fieldErrors.expires_at"></p>
-                    </div>
-                </div>
-
-                <!-- General Error Display -->
-                <div class="p-4 bg-rose-500/10 border border-rose-500/20 rounded-xl flex items-center gap-3 text-sm text-rose-400" x-show="errorMsg" x-cloak>
-                    <span class="text-lg">⚠️</span>
-                    <span x-text="errorMsg"></span>
-                </div>
-
-                <!-- Submit Button -->
-                <button type="submit" :disabled="loading" 
-                        class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-semibold py-4 rounded-xl shadow-xl shadow-indigo-600/10 hover:shadow-indigo-600/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-950 focus:ring-blue-500 disabled:opacity-50 transition duration-200">
-                    <span x-show="!loading">Perpendek Sekarang</span>
-                    <span x-show="loading" class="flex items-center justify-center gap-2">
-                        <svg class="animate-spin h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                        Memproses...
-                    </span>
-                </button>
-            </form>
-
-            <!-- Result Section -->
-            <div x-show="result" x-transition.opacity class="mt-8 border-t border-slate-800 pt-8" x-cloak>
-                <h3 class="text-sm font-semibold text-slate-400 mb-3 uppercase tracking-wider">Hasil Tautan Pendek Anda</h3>
-                <div class="flex flex-col sm:flex-row items-stretch gap-3">
-                    <div class="flex-grow bg-slate-950 border border-slate-800 rounded-xl px-4 py-3.5 flex items-center justify-between text-slate-100 font-mono text-sm overflow-x-auto whitespace-nowrap">
-                        <span x-text="result?.short_url" class="select-all"></span>
-                    </div>
-                    <button @click="copyToClipboard()" class="flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl border font-semibold transition duration-200"
-                            :class="copied ? 'bg-emerald-600 border-emerald-500 text-white' : 'bg-slate-800 hover:bg-slate-700 border-slate-700 text-slate-200'">
-                        <template x-if="!copied">
-                            <span class="flex items-center gap-2">
-                                <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
-                                Salin
-                            </span>
-                        </template>
-                        <template x-if="copied">
-                            <span class="flex items-center gap-2">
-                                <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
-                                Tersalin!
-                            </span>
-                        </template>
-                    </button>
-                </div>
-                <!-- Details info (Optional expiry/original destination) -->
-                <div class="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-slate-500">
-                    <div class="flex items-center gap-1.5">
-                        <span>Tujuan:</span>
-                        <a :href="result?.original_url" target="_blank" class="text-slate-400 hover:underline max-w-[200px] sm:max-w-[300px] truncate" x-text="result?.original_url"></a>
-                    </div>
-                    <template x-if="result?.expires_at">
-                        <div class="flex items-center gap-1.5">
-                            <span>Kedaluwarsa:</span>
-                            <span class="text-amber-500/80 font-medium" x-text="result?.expires_at"></span>
-                        </div>
-                    </template>
-                </div>
+      <!-- Shortener Form Card -->
+      <div
+        class="w-full bg-slate-900/60 border border-slate-800/80 rounded-2xl p-6 sm:p-8 backdrop-blur-xl shadow-2xl relative"
+      >
+        <form @submit.prevent="handleSubmit()" class="space-y-6">
+          <!-- Original URL Input -->
+          <div>
+            <label
+              for="original_url"
+              class="block text-sm font-semibold text-slate-300 mb-2"
+              >URL Asli <span class="text-rose-500">*</span></label
+            >
+            <div class="relative">
+              <input
+                type="url"
+                id="original_url"
+                x-model="originalUrl"
+                required
+                placeholder="https://example.com/halaman-panjang-sekali-yang-mau-diperpendek"
+                class="w-full bg-slate-950/80 border border-slate-800 rounded-xl py-3.5 px-4 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition duration-200"
+              />
             </div>
+            <p
+              class="mt-1.5 text-xs text-rose-400"
+              x-show="fieldErrors.original_url"
+              x-text="fieldErrors.original_url"
+            ></p>
+          </div>
+
+          <!-- Custom Alias and Expiry Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Custom Alias Input -->
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <label
+                  for="custom_alias"
+                  class="text-sm font-semibold text-slate-300"
+                  >Alias Kustom
+                  <span class="text-slate-500 text-xs">(opsional)</span></label
+                >
+                <span class="text-xs text-slate-500" x-show="!isLoggedIn"
+                  >Butuh login</span
+                >
+              </div>
+              <input
+                type="text"
+                id="custom_alias"
+                x-model="customAlias"
+                :disabled="!isLoggedIn"
+                :placeholder="isLoggedIn ? 'nama-alias' : 'Login untuk menggunakan'"
+                class="w-full bg-slate-950/80 border border-slate-800 rounded-xl py-3 px-4 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition duration-200"
+              />
+              <p
+                class="mt-1.5 text-xs text-rose-400"
+                x-show="fieldErrors.custom_alias"
+                x-text="fieldErrors.custom_alias"
+              ></p>
+            </div>
+
+            <!-- Expiration Input -->
+            <div>
+              <label
+                for="expires_at"
+                class="block text-sm font-semibold text-slate-300 mb-2"
+                >Waktu Kedaluwarsa
+                <span class="text-slate-500 text-xs">(opsional)</span></label
+              >
+              <input
+                type="datetime-local"
+                id="expires_at"
+                x-model="expiresAt"
+                class="w-full bg-slate-950/80 border border-slate-800 rounded-xl py-3 px-4 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition duration-200"
+              />
+              <p
+                class="mt-1.5 text-xs text-rose-400"
+                x-show="fieldErrors.expires_at"
+                x-text="fieldErrors.expires_at"
+              ></p>
+            </div>
+          </div>
+
+          <!-- General Error Display -->
+          <div
+            class="p-4 bg-rose-500/10 border border-rose-500/20 rounded-xl flex items-center gap-3 text-sm text-rose-400"
+            x-show="errorMsg"
+            x-cloak
+          >
+            <span class="text-lg">⚠️</span>
+            <span x-text="errorMsg"></span>
+          </div>
+
+          <!-- Submit Button -->
+          <button
+            type="submit"
+            :disabled="loading"
+            class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-semibold py-4 rounded-xl shadow-xl shadow-indigo-600/10 hover:shadow-indigo-600/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-950 focus:ring-blue-500 disabled:opacity-50 transition duration-200"
+          >
+            <span x-show="!loading">Perpendek Sekarang</span>
+            <span
+              x-show="loading"
+              class="flex items-center justify-center gap-2"
+            >
+              <svg
+                class="animate-spin h-5 w-5 text-white"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                ></circle>
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+              Memproses...
+            </span>
+          </button>
+        </form>
+
+        <!-- Result Section -->
+        <div
+          x-show="result"
+          x-transition.opacity
+          class="mt-8 border-t border-slate-800 pt-8"
+          x-cloak
+        >
+          <h3
+            class="text-sm font-semibold text-slate-400 mb-3 uppercase tracking-wider"
+          >
+            Hasil Tautan Pendek Anda
+          </h3>
+          <div class="flex flex-col sm:flex-row items-stretch gap-3">
+            <div
+              class="flex-grow bg-slate-950 border border-slate-800 rounded-xl px-4 py-3.5 flex items-center justify-between text-slate-100 font-mono text-sm overflow-x-auto whitespace-nowrap"
+            >
+              <span
+                x-text="result?.short_url ? result.short_url.replace(/(^\w+:|^)\/\//, '') : ''"
+                class="select-all"
+              ></span>
+            </div>
+            <button
+              @click="copyToClipboard()"
+              class="flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl border font-semibold transition duration-200"
+              :class="copied ? 'bg-emerald-600 border-emerald-500 text-white' : 'bg-slate-800 hover:bg-slate-700 border-slate-700 text-slate-200'"
+            >
+              <template x-if="!copied">
+                <span class="flex items-center gap-2">
+                  <svg
+                    class="h-4 w-4"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"
+                    ></path>
+                  </svg>
+                  Salin
+                </span>
+              </template>
+              <template x-if="copied">
+                <span class="flex items-center gap-2">
+                  <svg
+                    class="h-4 w-4"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M5 13l4 4L19 7"
+                    ></path>
+                  </svg>
+                  Tersalin!
+                </span>
+              </template>
+            </button>
+          </div>
+          <!-- Details info (Optional expiry/original destination) -->
+          <div
+            class="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-slate-500"
+          >
+            <div class="flex items-center gap-1.5">
+              <span>Tujuan:</span>
+              <a
+                :href="result?.original_url"
+                target="_blank"
+                class="text-slate-400 hover:underline max-w-[200px] sm:max-w-[300px] truncate"
+                x-text="result?.original_url"
+              ></a>
+            </div>
+            <template x-if="result?.expires_at">
+              <div class="flex items-center gap-1.5">
+                <span>Kedaluwarsa:</span>
+                <span
+                  class="text-amber-500/80 font-medium"
+                  x-text="result?.expires_at"
+                ></span>
+              </div>
+            </template>
+          </div>
         </div>
+      </div>
     </main>
 
     <!-- Footer -->
     <footer class="border-t border-slate-900 py-8 bg-slate-950 relative z-10">
-        <div class="max-w-6xl mx-auto px-4 text-center text-sm text-slate-600">
-            <p>&copy; 2026 Gazin URL Shortener. Tugas Kuliah Sistem Terdistribusi.</p>
-        </div>
+      <div class="max-w-6xl mx-auto px-4 text-center text-sm text-slate-600">
+        <p>
+          &copy; 2026 Gazin URL Shortener. Tugas Kuliah Sistem Terdistribusi.
+        </p>
+      </div>
     </footer>
-</body>
+  </body>
 </html>
