@@ -49,10 +49,10 @@
             
             <!-- Navigation -->
             <nav class="flex items-center gap-2 sm:gap-4">
-                <a href="index.html" class="hidden sm:block text-sm font-medium text-slate-400 hover:text-white transition duration-200">Buat Tautan</a>
-                <span class="hidden sm:inline text-slate-700">|</span>
+                <a href="index.html" class="text-xs sm:text-sm font-medium text-slate-400 hover:text-white transition duration-200">Buat Tautan</a>
+                <span class="text-slate-700 text-xs sm:text-sm">|</span>
                 <div class="flex items-center gap-2 sm:gap-3">
-                    <span class="text-xs sm:text-sm text-slate-300 font-medium max-w-[100px] sm:max-w-[200px] truncate" x-text="user?.username"></span>
+                    <span class="text-xs sm:text-sm text-slate-300 font-medium max-w-[70px] sm:max-w-[200px] truncate" x-text="user?.username"></span>
                     <button @click="logout()" class="text-xs sm:text-sm font-semibold text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 px-2 sm:px-3 py-1.5 rounded-lg border border-rose-500/20 transition duration-200">Keluar</button>
                 </div>
             </nav>
