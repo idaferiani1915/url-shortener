@@ -17,6 +17,7 @@ document.addEventListener('alpine:init', () => {
     Alpine.data('navbar', () => ({
         isLoggedIn: API.isLoggedIn(),
         user: API.getUser(),
+        mobileMenuOpen: false,
         logout() {
             API.logout();
             window.location.href = '/app/index.html';
