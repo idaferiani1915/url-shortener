@@ -1,2 +1,9 @@
 User-agent: *
-Disallow: 
+Allow: /
+Allow: /app/index.html
+Allow: /app/login.html
+Allow: /app/register.html
+Disallow: /app/dashboard.html
+Disallow: /api/
+
+Sitemap: https://gazin.fun/sitemap.xml

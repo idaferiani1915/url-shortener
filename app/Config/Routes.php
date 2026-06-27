@@ -53,5 +53,26 @@ $routes->group('api', ['filter' => ['jwt', 'ratelimit']], function($routes) {
     $routes->get('urls/(:num)/stats', 'AnalyticsController::stats/$1');
 });
 
+// Serve SEO files explicitly just in case web server forwards all static files to CI
+$routes->get('sitemap.xml', function() {
+    $filePath = FCPATH . 'sitemap.xml';
+    if (is_file($filePath)) {
+        return service('response')
+            ->setHeader('Content-Type', 'text/xml; charset=UTF-8')
+            ->setBody(file_get_contents($filePath));
+    }
+    return service('response')->setStatusCode(404);
+});
+
+$routes->get('robots.txt', function() {
+    $filePath = FCPATH . 'robots.txt';
+    if (is_file($filePath)) {
+        return service('response')
+            ->setHeader('Content-Type', 'text/plain; charset=UTF-8')
+            ->setBody(file_get_contents($filePath));
+    }
+    return service('response')->setStatusCode(404);
+});
+
 // Redirect endpoint (fallback, must be at the very bottom!)
 $routes->get('(:segment)', 'RedirectController::redirect/$1', ['filter' => 'ratelimit']);
