@@ -160,6 +160,12 @@
                 class="w-full bg-slate-950/80 border border-slate-800 rounded-xl py-3 px-4 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition duration-200"
               />
               <p
+                class="mt-1.5 text-[11px] text-slate-500 leading-tight"
+                x-show="isLoggedIn"
+              >
+                *Jika alias sudah dipakai, sistem otomatis menambahkan kode acak di belakangnya.
+              </p>
+              <p
                 class="mt-1.5 text-xs text-rose-400"
                 x-show="fieldErrors.custom_alias"
                 x-text="fieldErrors.custom_alias"
