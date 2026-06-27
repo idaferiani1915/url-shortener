@@ -82,23 +82,50 @@ class ShortenController extends BaseController
             }
         }
 
-        // Tentukan short code (Selalu acak)
+        // Tentukan short code
         $shortCode = '';
         
-        // Generate collision-safe short code
-        $attempts = 0;
-        do {
-            $shortCode = Base62Encoder::generate();
-            $exists = $urlModel->where('short_code', $shortCode)->first();
-            $attempts++;
-        } while ($exists && $attempts < 5);
-        
-        if ($exists) {
-            return $this->respond([
-                'status'  => 'error',
-                'message' => 'Gagal membuat short code yang unik, silakan coba lagi.',
-                'data'    => null
-            ], 500);
+        if (!empty($customAlias)) {
+            // Coba gunakan alias kustom secara langsung
+            $exists = $urlModel->where('short_code', $customAlias)->first();
+            
+            if (!$exists) {
+                // Belum ada yang pakai, gunakan murni
+                $shortCode = $customAlias;
+            } else {
+                // Sudah dipakai user lain! Jangan dilarang, tapi tambahkan suffix unik
+                $attempts = 0;
+                do {
+                    // contoh: promo-aB3x
+                    $shortCode = $customAlias . '-' . substr(Base62Encoder::generate(), 0, 4);
+                    $exists2 = $urlModel->where('short_code', $shortCode)->first();
+                    $attempts++;
+                } while ($exists2 && $attempts < 5);
+                
+                if ($exists2) {
+                    return $this->respond([
+                        'status'  => 'error',
+                        'message' => 'Gagal membuat kombinasi unik untuk alias kustom Anda.',
+                        'data'    => null
+                    ], 500);
+                }
+            }
+        } else {
+            // Generate collision-safe short code acak murni
+            $attempts = 0;
+            do {
+                $shortCode = Base62Encoder::generate();
+                $exists = $urlModel->where('short_code', $shortCode)->first();
+                $attempts++;
+            } while ($exists && $attempts < 5);
+            
+            if ($exists) {
+                return $this->respond([
+                    'status'  => 'error',
+                    'message' => 'Gagal membuat short code yang unik, silakan coba lagi.',
+                    'data'    => null
+                ], 500);
+            }
         }
 
         // Simpan ke database
