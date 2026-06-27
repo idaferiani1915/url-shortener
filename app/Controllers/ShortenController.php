@@ -82,37 +82,23 @@ class ShortenController extends BaseController
             }
         }
 
-        // Tentukan short code
+        // Tentukan short code (Selalu acak)
         $shortCode = '';
-        if (!empty($customAlias)) {
-            // Cek keunikan alias di short_code dan custom_alias
-            $exists = $urlModel->where('short_code', $customAlias)
-                               ->orWhere('custom_alias', $customAlias)
-                               ->first();
-            if ($exists) {
-                return $this->respond([
-                    'status'  => 'error',
-                    'message' => 'Alias kustom sudah digunakan.',
-                    'data'    => ['custom_alias' => 'Alias kustom sudah digunakan.']
-                ], 409);
-            }
-            $shortCode = $customAlias;
-        } else {
-            // Generate collision-safe short code
-            $attempts = 0;
-            do {
-                $shortCode = Base62Encoder::generate();
-                $exists = $urlModel->where('short_code', $shortCode)->first();
-                $attempts++;
-            } while ($exists && $attempts < 5);
-            
-            if ($exists) {
-                return $this->respond([
-                    'status'  => 'error',
-                    'message' => 'Gagal membuat short code yang unik, silakan coba lagi.',
-                    'data'    => null
-                ], 500);
-            }
+        
+        // Generate collision-safe short code
+        $attempts = 0;
+        do {
+            $shortCode = Base62Encoder::generate();
+            $exists = $urlModel->where('short_code', $shortCode)->first();
+            $attempts++;
+        } while ($exists && $attempts < 5);
+        
+        if ($exists) {
+            return $this->respond([
+                'status'  => 'error',
+                'message' => 'Gagal membuat short code yang unik, silakan coba lagi.',
+                'data'    => null
+            ], 500);
         }
 
         // Simpan ke database
